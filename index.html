@@ -3,45 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Chroma Recall - Memory Game</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>IQ Test</title>
+    <link rel="stylesheet" href="style.css"> <!-- Ensure this path is correct -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body>
-    <div class="game-container">
-        <header class="game-header">
-            <h1>Chroma Recall</h1>
-            <p class="instructions">Watch the sequence, then repeat it!</p>
-        </header>
+<body data-theme="default"> <!-- Theme controlled via data attribute -->
 
-        <div class="score-board">
-            <div class="score-item">
-                <span class="label">Level</span>
-                <span id="current-level" class="value">0</span>
+    <div class="background-overlay"></div>
+
+    <div class="game-wrapper">
+        <!-- Settings Button - Always Visible -->
+        <button id="settings-button" class="icon-button settings-toggle-button" aria-label="Settings">
+            <i class="fas fa-cog"></i>
+        </button>
+
+        <div class="game-container">
+            <header class="game-header">
+                <h1>Mem<i class="fa-solid fa-brain" style="font-size: 28px;"></i>ry Test</h1>
+                <p id="game-mode-display" class="mode-display">Classic Mode (Medium)</p>
+            </header>
+
+            <div class="score-board">
+                <div class="score-item">
+                    <span class="label">Level</span>
+                    <span id="current-level" class="value animated-score">0</span>
+                </div>
+                 <div class="score-item">
+                    <span class="label">High Score</span>
+                    <span id="high-score" class="value">0</span>
+                </div>
             </div>
-            <div class="score-item">
-                <span class="label">High Score</span>
-                <span id="high-score" class="value">0</span>
+
+            <div class="game-board-outer"> <!-- Container for the flat board -->
+                <div class="game-board">
+                    <!-- The Color Pads -->
+                    <div class="color-pad" data-color="green" id="green"></div>
+                    <div class="color-pad" data-color="red" id="red"></div>
+                    <div class="color-pad" data-color="yellow" id="yellow"></div>
+                    <div class="color-pad" data-color="blue" id="blue"></div>
+                </div>
+            </div>
+
+
+            <div class="controls">
+                 <p id="message" class="message-area"></p>
+                 <!-- Start Button -->
+                 <button id="start-button" class="control-button pulse-on-load">
+                     Start Game
+                 </button>
+                 <!-- Reset Game Button (Initially Hidden) -->
+                 <button id="reset-game-button" class="control-button secondary-button reset-game-button">
+                     Reset Game
+                 </button>
+            </div>
+
+            <footer>
+                <p>A Brain Training Challenge</p>
+            </footer>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="modal" aria-hidden="true">
+            <div class="modal-content">
+                <!-- Removed original close button, using modal buttons now -->
+                <h2>Settings</h2>
+                <p id="settings-info" class="settings-info-message"></p> <!-- Info message area -->
+
+                <div class="setting-group">
+                    <label for="game-mode">Game Mode:</label>
+                    <select id="game-mode">
+                        <option value="classic">Classic</option>
+                        <option value="speed">Speed Frenzy</option>
+                        <option value="reverse">Reverse</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label for="difficulty">Difficulty:</label>
+                    <select id="difficulty">
+                        <option value="easy">Easy</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+
+                 <div class="setting-group">
+                    <label for="theme-select">Theme:</label>
+                    <select id="theme-select">
+                        <option value="default">Default</option>
+                        <option value="forest">Forest</option>
+                        <option value="ocean">Ocean</option>
+                        <option value="sunset">Sunset</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label>Sound:</label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <button id="sound-toggle" class="toggle-button" aria-pressed="true">
+                            <span class="toggle-indicator"></span>
+                            <span class="sr-only">Toggle Sound</span>
+                        </button>
+                        <span id="sound-status">On</span>
+                    </div>
+                </div>
+
+                <div class="stats-section">
+                    <h3>Statistics</h3>
+                    <p>Games Played: <span id="stats-games-played">0</span></p>
+                    <p>Average Score: <span id="stats-avg-score">0.0</span></p>
+                     <button id="reset-stats-button" class="control-button small-button">Reset Stats</button>
+                </div>
+
+                <!-- Modal Action Buttons -->
+                <div class="modal-actions">
+                    <button id="settings-cancel-button" class="control-button secondary-button">Cancel</button>
+                    <button id="settings-apply-button" class="control-button">Apply & Close</button>
+                </div>
+
             </div>
         </div>
-
-        <div class="game-board">
-            <div class="color-pad" id="green"></div>
-            <div class="color-pad" id="red"></div>
-            <div class="color-pad" id="yellow"></div>
-            <div class="color-pad" id="blue"></div>
-        </div>
-
-        <div class="controls">
-            <button id="start-button" class="control-button">Start Game</button>
-            <p id="message" class="message-area"></p>
-        </div>
-
-        <footer>
-            <p>A Simple Memory Challenge</p>
-        </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script src="https://kit.fontawesome.com/37df75b44e.js" crossorigin="anonymous"></script>
+    <script src="script.js"></script> 
 </body>
 </html>
