@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Chroma Recall - Memory Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <h1>Chroma Recall</h1>
+            <p class="instructions">Watch the sequence, then repeat it!</p>
+        </header>
+
+        <div class="score-board">
+            <div class="score-item">
+                <span class="label">Level</span>
+                <span id="current-level" class="value">0</span>
+            </div>
+            <div class="score-item">
+                <span class="label">High Score</span>
+                <span id="high-score" class="value">0</span>
+            </div>
+        </div>
+
+        <div class="game-board">
+            <div class="color-pad" id="green"></div>
+            <div class="color-pad" id="red"></div>
+            <div class="color-pad" id="yellow"></div>
+            <div class="color-pad" id="blue"></div>
+        </div>
+
+        <div class="controls">
+            <button id="start-button" class="control-button">Start Game</button>
+            <p id="message" class="message-area"></p>
+        </div>
+
+        <footer>
+            <p>A Simple Memory Challenge</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

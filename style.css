@@ -1,0 +1,227 @@
+:root {
+    --bg-color: #f0f2f5; /* Light grayish background */
+    --container-bg: #ffffff; /* White container */
+    --text-color: #333;
+    --primary-accent: #4a90e2; /* A nice blue */
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --border-radius: 15px;
+
+    --green: #68d391; /* Tailwind green-400 */
+    --red: #f56565; /* Tailwind red-400 */
+    --yellow: #f6e05e; /* Tailwind yellow-400 */
+    --blue: #63b3ed; /* Tailwind blue-400 */
+
+    --green-active: #38a169; /* Tailwind green-600 */
+    --red-active: #c53030; /* Tailwind red-600 */
+    --yellow-active: #d69e2e; /* Tailwind yellow-600 */
+    --blue-active: #3182ce; /* Tailwind blue-600 */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 15px;
+    -webkit-tap-highlight-color: transparent; /* Disable tap highlight on mobile */
+}
+
+.game-container {
+    background-color: var(--container-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 25px var(--shadow-color);
+    padding: 25px 30px;
+    width: 100%;
+    max-width: 450px; /* Max width for larger screens */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Spacing between elements */
+}
+
+.game-header h1 {
+    color: var(--primary-accent);
+    margin-bottom: 5px;
+    font-size: 2.2rem;
+}
+
+.instructions {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.score-board {
+    display: flex;
+    justify-content: space-around;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.score-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.score-item .label {
+    font-size: 0.8rem;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.score-item .value {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--primary-accent);
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px; /* Gap between pads */
+    width: 80%; /* Relative size */
+    max-width: 300px; /* Max size */
+    margin: 20px auto; /* Centering */
+    aspect-ratio: 1 / 1; /* Keep it square */
+}
+
+.color-pad {
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.1s ease-in-out, transform 0.1s ease, box-shadow 0.1s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0.7; /* Slightly dim normally */
+    position: relative; /* Needed for potential pseudo-elements */
+    user-select: none; /* Prevent text selection */
+    -webkit-user-select: none;
+}
+
+/* Pad specific colors */
+#green { background-color: var(--green); }
+#red   { background-color: var(--red); }
+#yellow{ background-color: var(--yellow); }
+#blue  { background-color: var(--blue); }
+
+/* Active / Flashing state */
+.color-pad.active {
+    opacity: 1;
+    transform: scale(1.03);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+#green.active { background-color: var(--green-active); }
+#red.active   { background-color: var(--red-active); }
+#yellow.active{ background-color: var(--yellow-active); }
+#blue.active  { background-color: var(--blue-active); }
+
+/* Pressed state (for immediate feedback on touch/click) */
+.color-pad:active:not(.disabled) {
+    transform: scale(0.97);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Disabled state (when player can't click) */
+.color-pad.disabled {
+    cursor: not-allowed;
+    /* opacity: 0.6; No need, handled by base opacity */
+}
+
+.controls {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.control-button {
+    background-color: var(--primary-accent);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px; /* Pill shape */
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(74, 144, 226, 0.4);
+    outline: none; /* Remove default outline */
+}
+
+.control-button:hover:not(:disabled) {
+    background-color: #357ABD; /* Darker blue on hover */
+    box-shadow: 0 6px 12px rgba(74, 144, 226, 0.5);
+}
+
+.control-button:active:not(:disabled) {
+    transform: scale(0.98);
+    box-shadow: 0 2px 5px rgba(74, 144, 226, 0.3);
+}
+
+.control-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.message-area {
+    min-height: 20px; /* Reserve space */
+    font-weight: 600;
+    color: var(--primary-accent);
+    transition: opacity 0.3s ease;
+}
+
+.message-area.error {
+    color: var(--red);
+}
+
+footer {
+    margin-top: 15px;
+    font-size: 0.8rem;
+    color: #999;
+}
+
+/* --- Responsiveness --- */
+
+/* Smaller mobile devices */
+@media (max-width: 400px) {
+    .game-container {
+        padding: 20px 15px;
+        gap: 15px;
+    }
+    .game-header h1 {
+        font-size: 1.8rem;
+    }
+    .score-item .value {
+        font-size: 1.5rem;
+    }
+    .game-board {
+        width: 90%;
+        gap: 10px;
+    }
+    .control-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Add a subtle animation for showing messages */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.message-area {
+    animation: fadeIn 0.5s ease forwards;
+}
